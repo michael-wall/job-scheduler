@@ -1,5 +1,6 @@
 ## Introduction ##
-This is a simple sample OSGi module that contains a Job Scheduler that retrieves the Object Records for a specified Object Definition ERC, iterates the records and updates a specified field in each Object record.
+- This is a simple sample OSGi module that contains a Job Scheduler that retrieves the Object Records for a specified Object Definition ERC, iterates the records and updates a specified field in each Object record.
+- Custom properties determine the objectDefinition ERC used as well as the fieldName, as a result the OSGi Component code is portable.
 
 ## Environment ##
 - The module is built for 2025.Q1.0 (Liferay Workspace gradle.properties > liferay.workspace.product = dxp-2025.q1.0-lts)
