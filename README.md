@@ -22,3 +22,6 @@ user.id=99999 (this should be the userId of an Active user in the Virtual Instan
 - Set to Active, add a Cron expression for example to run it every 5 minutes use 0 */5 * ? * * and then 'Save'.
 - Note the 'Next Run Date' and confirm it runs as expected. Check the Logs tab of the Job to see the Run History.
 - The 'Run Now' button can be used to manually trigger the Job.
+
+## Notes ##
+- This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
