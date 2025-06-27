@@ -30,11 +30,11 @@ import org.osgi.service.component.annotations.Reference;
 
 @Component(
 	property = {
-		"dispatch.task.executor.name=mw", "dispatch.task.executor.type=mw"
+		"dispatch.task.executor.name=update-object-entries", "dispatch.task.executor.type=update-object-entries"
 	},
 	service = DispatchTaskExecutor.class
 )
-public class MWDispatchTaskExecutor extends BaseDispatchTaskExecutor {
+public class UpdateObjectEntriesDispatchTaskExecutor extends BaseDispatchTaskExecutor {
 	private interface JOB_PROPERTIES {
 		static final String OBJECT_DEFINITION_ERC = "object.definition.erc";
 		static final String OBJECT_DEFINITION_FIELD_NAME = "object.definition.fieldName";
@@ -43,7 +43,7 @@ public class MWDispatchTaskExecutor extends BaseDispatchTaskExecutor {
 	
 	@Override
 	public String getName() {
-		return "mw";
+		return "update-object-entries";
 	}	
 	
 	@Activate
@@ -122,11 +122,11 @@ public class MWDispatchTaskExecutor extends BaseDispatchTaskExecutor {
 		for (ObjectEntry objectEntry: objectEntries) {
 			ObjectEntry latestObjectEntry = objectEntryLocalService.fetchObjectEntry(objectEntry.getObjectEntryId());
 
-			String studentName = (String)latestObjectEntry.getValues().get(objectDefinitionFieldName);
+			String fieldValue = (String)latestObjectEntry.getValues().get(objectDefinitionFieldName);
 			
-			latestObjectEntry.getValues().put(objectDefinitionFieldName, studentName += "x");
+			latestObjectEntry.getValues().put(objectDefinitionFieldName, fieldValue += "x");
 			
-			_log.info(studentName + ", " + latestObjectEntry.getObjectEntryId());
+			_log.info("objectEntryId: " + latestObjectEntry.getObjectEntryId() + ", Current MVCC: " + latestObjectEntry.getMvccVersion() + ", newFieldValue: " + fieldValue);
 			
 			objectEntryLocalService.updateObjectEntry(user.getUserId(), latestObjectEntry.getObjectEntryId(), latestObjectEntry.getValues(), new ServiceContext());
 		}
@@ -155,5 +155,5 @@ public class MWDispatchTaskExecutor extends BaseDispatchTaskExecutor {
 	@Reference(unbind = "-")
 	private UserLocalService userLocalService;
 
-	private static final Log _log = LogFactoryUtil.getLog(MWDispatchTaskExecutor.class);
+	private static final Log _log = LogFactoryUtil.getLog(UpdateObjectEntriesDispatchTaskExecutor.class);
 }
