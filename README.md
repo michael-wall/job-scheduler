@@ -16,7 +16,7 @@ This is a sample Job Scheduler that retrieves the Object Records for a specified
 ```
 object.definition.erc=STUDENT
 object.definition.fieldName=studentName
-user.id=99999 (this should be the userId of an Active user in the Virtual Instance)
+user.id=99999 [this should be the userId of an Active user in the Virtual Instance]
 ```
 - Select the newly created Job from the Grid screen and switch to the 'Job Scheduler Trigger' tab.
 - Set to Active, add a Cron expression for example to run it every 5 minutes use 0 */5 * ? * * and then 'Save'.
