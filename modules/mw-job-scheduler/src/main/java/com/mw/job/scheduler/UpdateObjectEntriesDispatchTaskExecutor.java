@@ -21,10 +21,13 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -152,14 +155,17 @@ public class UpdateObjectEntriesDispatchTaskExecutor extends BaseDispatchTaskExe
 		
 		for (ObjectEntry objectEntry: objectEntries) {
 			ObjectEntry latestObjectEntry = objectEntryLocalService.fetchObjectEntry(objectEntry.getObjectEntryId());
-
-			String fieldValue = (String)latestObjectEntry.getValues().get(objectDefinitionFieldName);
 			
-			latestObjectEntry.getValues().put(objectDefinitionFieldName, fieldValue += "x");
+			String oldFieldValue = (String)latestObjectEntry.getValues().get(objectDefinitionFieldName);
+			String newFieldValue = UUID.randomUUID().toString();
+						
+			_log.info("objectEntryId: " + latestObjectEntry.getObjectEntryId() + ", Current MVCC: " + latestObjectEntry.getMvccVersion()  + ", oldFieldValue: " + oldFieldValue + ", newFieldValue: " + newFieldValue);
 			
-			_log.info("objectEntryId: " + latestObjectEntry.getObjectEntryId() + ", Current MVCC: " + latestObjectEntry.getMvccVersion() + ", newFieldValue: " + fieldValue);
+			Map<String, Serializable> updatedValues = new HashMap<String, Serializable>();
 			
-			objectEntryLocalService.updateObjectEntry(user.getUserId(), latestObjectEntry.getObjectEntryId(), latestObjectEntry.getValues(), new ServiceContext());
+			updatedValues.put(objectDefinitionFieldName, newFieldValue);
+			
+			objectEntryLocalService.updateObjectEntry(user.getUserId(), latestObjectEntry.getObjectEntryId(), updatedValues, new ServiceContext());
 			
 			updateCount ++;
 		}

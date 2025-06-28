@@ -10,7 +10,7 @@
 ## Configuration ##
 - Create an Object Definition with Scope set to Company and set an ERC on the Object Definition e.g. STUDENT.
 - Create an Object Definition with Scope set to Site and set an ERC on the Object Definition e.g. DOCUMENT.
-- Add a Field of Type Text to each Object Definition, note the fieldName and Publish each Object Definition.
+- Add 2 Fields of Type Text to each Object Definition (e.g. name and uuid), note the fieldNames and Publish each Object Definition.
 - Create 10 or more Object Records for the Company Scoped Object Definition.
 - Create 10 or more Object Records in a chosen Site for the Site Scoped Object Definition and note the Site Id of the Site.
 - Build and deploy the custom OSGi module.
@@ -19,7 +19,7 @@
 - Populate a name e.g. 'Student Update Scheduler [Company Scoped]' and the following custom properties (one per line in the format key=value using the correct values) that are used in the custom Executor and 'Save'.
 ```
 object.definition.erc=STUDENT
-object.definition.fieldName=studentName
+object.definition.fieldName=uuid
 user.id=99999 [this should be a userId of an Active user in the Virtual Instance]
 ```
 - Select the newly created Job from the Grid screen and switch to the 'Job Scheduler Trigger' tab.
@@ -28,7 +28,7 @@ user.id=99999 [this should be a userId of an Active user in the Virtual Instance
 - Populate a name e.g. 'Document Update Scheduler [Site Scoped]' and the following custom properties (one per line in the format key=value using the correct values) that are used in the custom Executor and 'Save'.
 ```
 object.definition.erc=DOCUMENT
-object.definition.fieldName=testField
+object.definition.fieldName=uuid
 user.id=99999 [this should be a userId of an Active user in the Virtual Instance]
 group.id=12345 [this should be the Site ID of the Site the Object records were created in]
 ```
