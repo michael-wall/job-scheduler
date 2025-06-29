@@ -1,13 +1,15 @@
 ## Introduction ##
-- This is a simple sample OSGi module that contains a Job Scheduler that retrieves the Object Records for a specified Object Definition ERC, iterates the records and updates a specified field in each Object record.
+- This is a sample OSGi module that contains 2 Job Schedulers:
+- UpdateObjectEntriesDispatchTaskExecutor: Retrieves the Object Records for a specified Object Definition ERC, iterates the records and updates a specified field in each Object record using Object Local Services.
 - Custom properties determine the objectDefinition ERC used as well as the fieldName, as a result the OSGi Component code is portable.
 - The Component works for Company and Site scoped Object Definitions.
+- HeadlessUpdateObjectEntriesDispatchTaskExecutor: Retrieves the Object Records for Employee Object, iterates the records and updates the uuid field in each Object record using headless REST APIs and OAuth 2.0
 
 ## Environment ##
 - The module was built and tested with 2025.Q1.0 (Liferay Workspace gradle.properties > liferay.workspace.product = dxp-2025.q1.0-lts)
 - JDK 21 is expected for compile time and runtime.
 
-## Configuration ##
+## UpdateObjectEntriesDispatchTaskExecutor Configuration ##
 - Create an Object Definition with Scope set to Company and set an ERC on the Object Definition e.g. STUDENT.
 - Create an Object Definition with Scope set to Site and set an ERC on the Object Definition e.g. DOCUMENT.
 - Add 2 Fields of Type Text to each Object Definition (e.g. name and uuid), note the fieldNames and Publish each Object Definition.
@@ -37,6 +39,8 @@ group.id=12345 [this should be the Site ID of the Site the Object records were c
 - Note the 'Next Run Date' of each Job and confirm they run as expected. The 'Run Now' button can be used to manually trigger a Job.
 - Check the Logs tab of the Job to see the Run History.
 - A PortalException is thrown to trigger a Job 'Fail' if any of the custom properties are missing or invalid e.g. 'doExecute user.id user not found...' or 'doExecute objectDefinition with ERC: STUDENT not found...'
+
+## HeadlessUpdateObjectEntriesDispatchTaskExecutor Configuration ##
 
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
