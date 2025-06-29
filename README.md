@@ -18,7 +18,7 @@
 - Build and deploy the custom OSGi module.
 - Go to Control Panel > Configuration > Job Scheduler
 - Click 'New' and select this custom Executor i.e. update-object-entries.
-- Populate a name e.g. 'Student Update Scheduler [Company Scoped]' and the following custom properties (one per line in the format key=value using the correct values) that are used in the custom Executor and 'Save'.
+- Populate a name e.g. 'Student Update Job [Company Scoped]' and the following custom properties (one per line in the format key=value using the correct values) that are used in the custom Executor and 'Save'.
 ```
 object.definition.erc=STUDENT
 object.definition.fieldName=uuid
@@ -27,7 +27,7 @@ user.id=99999 [this should be a userId of an Active user in the Virtual Instance
 - Select the newly created Job from the Grid screen and switch to the 'Job Scheduler Trigger' tab.
 - Set to Active, add a Cron expression for example to run it every 5 minutes use 0 */5 * ? * * and then 'Save'.
 - Click 'New' and select this custom Executor i.e. update-object-entries.
-- Populate a name e.g. 'Document Update Scheduler [Site Scoped]' and the following custom properties (one per line in the format key=value using the correct values) that are used in the custom Executor and 'Save'.
+- Populate a name e.g. 'Document Update Job [Site Scoped]' and the following custom properties (one per line in the format key=value using the correct values) that are used in the custom Executor and 'Save'.
 ```
 object.definition.erc=DOCUMENT
 object.definition.fieldName=uuid
@@ -54,7 +54,7 @@ group.id=12345 [this should be the Site ID of the Site the Object records were c
 - Build and deploy the custom OSGi module.
 - Go to Control Panel > Configuration > Job Scheduler
 - Click 'New' and select this custom Executor i.e. headless-update-object-entries.
-- Populate a name e.g. 'Employee Update Scheduler [Company Scoped]' and 'Save'.
+- Populate a name e.g. 'Employee Update Job [Company Scoped]' and 'Save'.
 - Click 'Run Now', check the logs and the Employee records.
 
 ## Notes ##
