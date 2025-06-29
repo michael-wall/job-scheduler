@@ -36,12 +36,13 @@ group.id=12345 [this should be the Site ID of the Site the Object records were c
 ```
 - Select the newly created Job from the Grid screen and switch to the 'Job Scheduler Trigger' tab.
 - Set to Active, add a Cron expression for example to run it every 5 minutes use 0 */5 * ? * * and then 'Save'.
-- Note the 'Next Run Date' of each Job and confirm they run as expected. The 'Run Now' button can be used to manually trigger a Job.
+- Note the 'Next Run Date' of each Job and confirm they run as expected.
+- Alternatively click 'Run Now', check the logs and the target records. The uuid field on each record should be updated.
 - Check the Logs tab of the Job to see the Run History.
 - A PortalException is thrown to trigger a Job 'Fail' if any of the custom properties are missing or invalid e.g. 'doExecute user.id user not found...' or 'doExecute objectDefinition with ERC: STUDENT not found...'
 
 ## HeadlessUpdateObjectEntriesDispatchTaskExecutor Configuration ##
-- Create an Object Definition with Scope set to Company called Employees with at least one field with the fieldName uuid.
+- Create an Object Definition with Scope set to Company called Employee with at least one field with the fieldName uuid.
 - Create some Object Records.
 - Create an 'OAuth 2 Administration'
   - Client Authentication Method: Client Secret Basic Or Post
@@ -54,8 +55,8 @@ group.id=12345 [this should be the Site ID of the Site the Object records were c
 - Build and deploy the custom OSGi module.
 - Go to Control Panel > Configuration > Job Scheduler
 - Click 'New' and select this custom Executor i.e. headless-update-object-entries.
-- Populate a name e.g. 'Employee Update Job [Company Scoped]' and 'Save'.
-- Click 'Run Now', check the logs and the Employee records.
+- Populate a name e.g. 'Headless Employee Update Job [Company Scoped]' and 'Save'.
+- Click 'Run Now', check the logs and the target records. The uuid field on each record should be updated.
 
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
