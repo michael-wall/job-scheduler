@@ -32,26 +32,32 @@ import org.osgi.service.component.annotations.Reference;
 	service = DispatchTaskExecutor.class
 )
 public class HeadlessUpdateObjectEntriesDispatchTaskExecutor extends BaseDispatchTaskExecutor {
+	
+	private static final String oAuthClientId = "id-d589ec63-720e-0592-e409-97582cb79d";  //TODO Externalize to config, store securely...
+	private static final String oAuthClientSecret = "secret-aef95246-77cd-4479-61e4-d441287424a"; //TODO Externalize to config, store securely...	
+	private static final String hostname = "http://localhost:8080";   //TODO Externalize to config
+	private String objectPath = "employees";
+	private String objectFieldName = "uuid";
 
-		@Override
-		public String getName() {
-			return "headless-update-object-entries";
-		}	
+	@Override
+	public String getName() {
+		return "headless-update-object-entries";
+	}	
 		
-		@Activate
-		protected void activate(Map<String, Object> properties)  throws Exception {
-			_log.info("activate");
-		}
+	@Activate
+	protected void activate(Map<String, Object> properties)  throws Exception {
+		_log.info("activate");
+	}
 
-		@Override
-		public void doExecute(
-				DispatchTrigger dispatchTrigger,
-				DispatchTaskExecutorOutput dispatchTaskExecutorOutput)
-			throws IOException, PortalException {
+	@Override
+	public void doExecute(
+		DispatchTrigger dispatchTrigger,
+		DispatchTaskExecutorOutput dispatchTaskExecutorOutput)
+		throws IOException, PortalException {
 
 	        _log.info("Starting...");
 
-	        String accessToken = getAccessToken();
+	        String accessToken = getOAuthAccessToken();
 	        
 	        if (Validator.isNull(accessToken)) {
 	  			_log.info("accessToken null, unable to proceed...");
@@ -60,7 +66,7 @@ public class HeadlessUpdateObjectEntriesDispatchTaskExecutor extends BaseDispatc
 	        }
 
 	        Http.Options options = new Http.Options();
-	        options.setLocation("http://localhost:8080/o/c/employees/");
+	        options.setLocation(hostname + "/o/c/" + objectPath + "/");
 	        
 	        Map<String, String> headers = HashMapBuilder.put("Authorization", "Bearer " + accessToken).put("Content-Type", "application/json").put("Accept", "application/json").build();
 
@@ -72,19 +78,20 @@ public class HeadlessUpdateObjectEntriesDispatchTaskExecutor extends BaseDispatc
 	        JSONArray items = responseObject.getJSONArray("items");
 
 	        for (int i = 0; i < items.length(); i++) {
-	            JSONObject employeeJsonObject = items.getJSONObject(i);
+	            JSONObject objectRecordJsonObject = items.getJSONObject(i);
 
-	            long id = employeeJsonObject.getLong("id");
-	            _log.info("employee ID: " + id);
+	            long id = objectRecordJsonObject.getLong("id");
+	            _log.info("Object Record ID: " + id);
 
-	            String patchUrl = "http://localhost:8080/o/c/employees/" + id;
+	            String patchUrl = hostname + "/o/c/" + objectPath + "/" + id;
+
 	            Http.Options patchOptions = new Http.Options();
 	            patchOptions.setLocation(patchUrl);
 	            patchOptions.setPatch(true);
 	            
 	            String newUUID = UUID.randomUUID().toString();
 	            
-	            String patchBody = "{\"uuid\": \"" + newUUID + "\"}";
+	            String patchBody = "{\"" + objectFieldName + "\": \"" + newUUID + "\"}";
 	            
 	            patchOptions.setBody(patchBody, "application/json", "UTF-8");
 	            
@@ -96,11 +103,9 @@ public class HeadlessUpdateObjectEntriesDispatchTaskExecutor extends BaseDispatc
 	        _log.info("Finishing...");
 	    }
 
-	    private String getAccessToken() {
-	        String tokenEndpoint = "http://localhost:8080/o/oauth2/token";
-	        String clientId = "id-d589ec63-720e-0592-e409-97582cb79d";  //TODO Externalize...
-	        String clientSecret = "secret-aef95246-77cd-4479-61e4-d441287424a"; //TODO Externalize...
-	    	
+	    private String getOAuthAccessToken() {
+	        String tokenEndpoint = hostname + "/o/oauth2/token";
+
 	        Map<String, String> headers = HashMapBuilder.put("Content-Type", "application/x-www-form-urlencoded").build();
 	  
 	        Http.Options options = new Http.Options();
@@ -108,8 +113,8 @@ public class HeadlessUpdateObjectEntriesDispatchTaskExecutor extends BaseDispatc
 	        options.setPost(true);
 	        options.setHeaders(headers);
 	        options.setBody(
-	                "grant_type=client_credentials&client_id=" + clientId +
-	                        "&client_secret=" + clientSecret,
+	                "grant_type=client_credentials&client_id=" + oAuthClientId +
+	                        "&client_secret=" + oAuthClientSecret,
 	                "application/x-www-form-urlencoded", "UTF-8");
 
 	        try {

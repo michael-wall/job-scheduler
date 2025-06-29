@@ -1,7 +1,7 @@
 ## Introduction ##
 - This is a sample OSGi module that contains 2 Job Schedulers:
 - **UpdateObjectEntriesDispatchTaskExecutor**: Retrieves the Object Records for a specified Object Definition ERC, iterates the records and updates a specified field in each Object record using Object Local Services.
-  - Custom properties determine the objectDefinition ERC used as well as the fieldName, as a result the OSGi Component code is portable.
+  - Custom properties determine the objectDefinition ERC used as well as the field name, as a result the OSGi Component code is portable.
   - The Component works for Company and Site scoped Object Definitions.
 - **HeadlessUpdateObjectEntriesDispatchTaskExecutor**: Retrieves the Object Records for Employee Object, iterates the records and updates the uuid field in each Object record using headless REST APIs and OAuth 2.0
 
@@ -12,7 +12,7 @@
 ## UpdateObjectEntriesDispatchTaskExecutor Configuration ##
 - Create an Object Definition with Scope set to Company and set an ERC on the Object Definition e.g. STUDENT.
 - Create an Object Definition with Scope set to Site and set an ERC on the Object Definition e.g. DOCUMENT.
-- Add 2 Fields of Type Text to each Object Definition (e.g. name and uuid), note the fieldNames and Publish each Object Definition.
+- Add 2 Fields of Type Text to each Object Definition (e.g. name and uuid), note the field names and Publish each Object Definition.
 - Create some Object Records for the Company Scoped Object Definition.
 - Create some Object Records in a chosen Site for the Site Scoped Object Definition and note the Site Id of the Site.
 - Build and deploy the custom OSGi module.
@@ -42,15 +42,15 @@ group.id=12345 [this should be the Site ID of the Site the Object records were c
 - A PortalException is thrown to trigger a Job 'Fail' if any of the custom properties are missing or invalid e.g. 'doExecute user.id user not found...' or 'doExecute objectDefinition with ERC: STUDENT not found...'
 
 ## HeadlessUpdateObjectEntriesDispatchTaskExecutor Configuration ##
-- Create an Object Definition with Scope set to Company called Employee with at least one field with the fieldName uuid.
+- Create an Object Definition with Scope set to Company called Employee with at least one field with the field name uuid.
 - Create some Object Records.
-- Create an 'OAuth 2 Administration'
+- Create an 'OAuth 2 Administration' with any Name e.g. 'Headless Employee Update Job' with the following configuration:
   - Client Authentication Method: Client Secret Basic Or Post
   - Client Profile: Headless Server
   - Allowed Authorization Types: Client Credentials
   - Scopes Tab > Enable all options for C_Employee
 - Note the Client ID and Client Secret.
-- Update the clientId and clientSecret values in the getAccessToken() method.
+- Update the oAuthClientId and oAuthClientSecret values in HeadlessUpdateObjectEntriesDispatchTaskExecutor.java.
 - Update the protocol, host and port in the URL strings if needed.
 - Build and deploy the custom OSGi module.
 - Go to Control Panel > Configuration > Job Scheduler

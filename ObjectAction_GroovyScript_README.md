@@ -76,7 +76,6 @@ TransactionCommitCallbackUtil.registerCallback(new Callable<Void>() {
     return null;
   }
 })
-
 ```
 - The code in this sample runs in a separate thread meaning the Object Record will be created / committed without needing to wait for the script to complete.
 - This sample updates a field value in all records in another Object.
