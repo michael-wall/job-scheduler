@@ -62,5 +62,5 @@ group.id=12345 [this should be the Site ID of the Site the Object records were c
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
 
 ## Reference ##
-https://learn.liferay.com/w/dxp/liferay-development/core-frameworks/job-scheduler-framework/creating-a-new-job-scheduler-task-executor
-https://learn.liferay.com/w/dxp/liferay-development/core-frameworks/job-scheduler-framework/using-job-scheduler#adding-a-new-job-scheduler-task
+- https://learn.liferay.com/w/dxp/liferay-development/core-frameworks/job-scheduler-framework/creating-a-new-job-scheduler-task-executor
+- https://learn.liferay.com/w/dxp/liferay-development/core-frameworks/job-scheduler-framework/using-job-scheduler#adding-a-new-job-scheduler-task
